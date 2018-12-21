@@ -1,0 +1,103 @@
+package tr.edu.osmangazi.eskisehirhaber;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.squareup.picasso.Picasso;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+/**
+ * Created by Caner on 17.5.2017.
+ */
+
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    ArrayList<FeedItem>feedItems;
+    Context context;
+    public MyAdapter(Context context, ArrayList<FeedItem>feedItems){
+        this.feedItems=feedItems;
+        this.context=context;
+    }
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(context).inflate(R.layout.custum_rows_news_item,parent,false);
+        MyViewHolder holder=new MyViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+
+
+        //Yoyo ekleyerek recyclerview içerisindeki cardviewlerin  fade in efekti ile yüklenmesi sağlandı..
+        YoYo.with(Techniques.FadeIn).playOn(holder.cardView);
+
+
+        final FeedItem current=feedItems.get(position);
+
+        //Html.fromHtml ile " ' " =&#39; gibi karakterlerin kod olarak çıkma durumu düzeltildi***
+        holder.Title.setText(Html.fromHtml(current.getTitle()));
+
+        holder.Description.setText(current.getDescription());
+
+
+        //Tarihi ve günü saate çevirmek için
+        String gunvesaat=current.getPubDate();
+        DateFormat dateFormat=new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+        try {
+            Date date=dateFormat.parse(gunvesaat);
+            SimpleDateFormat sdf=new SimpleDateFormat("EEEE HH:mm", new Locale("tr","TR"));
+            String gunismivesaat=sdf.format(date);
+            holder.Date.setText("Yayınlanma tarihi:  "+gunismivesaat);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Picasso.with(context).load(current.getThumbnailUrl()).into(holder.Thumbnail);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,NewsDetails.class);
+                intent.putExtra("Link",current.getLink());
+                context.startActivity(intent);
+
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return feedItems.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView Title, Description, Date;
+        ImageView Thumbnail;
+        CardView cardView;
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            Title= (TextView) itemView.findViewById(R.id.title_text);
+            Description= (TextView) itemView.findViewById(R.id.description_text);
+            Date= (TextView) itemView.findViewById(R.id.date_text);
+            Thumbnail= (ImageView) itemView.findViewById(R.id.thumb_img);
+            cardView= (CardView) itemView.findViewById(R.id.cardview);
+        }
+    }
+}

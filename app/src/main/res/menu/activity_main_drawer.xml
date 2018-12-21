@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_gundem"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Gündem" />
+        <item
+            android:id="@+id/nav_ekonomi"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Ekonomi" />
+        <item
+            android:id="@+id/nav_spor"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Spor" />
+        <item
+            android:id="@+id/nav_yasam"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Kultur ve Sanat" />
+        <item
+            android:id="@+id/nav_teknoloji"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Teknoloji" />
+        <item
+            android:id="@+id/nav_saglık"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Sağlık" />
+        <item
+        android:id="@+id/nav_dunya"
+        android:icon="@android:drawable/ic_dialog_dialer"
+        android:title="Dünya" />
+    </group>
+
+    <item android:title="İletişim">
+        <menu>
+            <item
+                android:id="@+id/nav_hakkımızda"
+                android:icon="@android:drawable/ic_dialog_info"
+                android:title="Hakkımızda" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@android:drawable/ic_dialog_email"
+                android:title="Bize Ulaşın" />
+        </menu>
+    </item>
+
+</menu>
